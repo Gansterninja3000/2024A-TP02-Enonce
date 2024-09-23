@@ -152,8 +152,7 @@ for row in c:
     now = datetime.datetime.now()
     date_diff = now.date() - target_date
     if date_diff.days > 30:
-        frais = 2* date_diff.days
-        if frais > 100:
+        if date_diff.days >= 365:
             bibliotheque[row["cote_rangement"]] = livre
             new_livre = {
             "titre": livre["titre"],
@@ -161,19 +160,33 @@ for row in c:
             "date_publication": livre["date_publication"],
             "emprunts" : "emprunté",
             "date_emprunt": row["date_emprunt"],
-            "frais_retard": "100$"
-            }
-        else:
-            bibliotheque[row["cote_rangement"]] = livre
-            new_livre = {
-            "titre": livre["titre"],
-            "auteur": livre["auteur"],
-            "date_publication": livre["date_publication"],
-            "emprunts" : "emprunté",
-            "date_emprunt": row["date_emprunt"],
-            "frais_retard": str(frais)+"$"
-            }
-        bibliotheque[row["cote_rangement"]] = new_livre
+            "frais_retard": "100$",
+            "livres_perdus": True
+            }  
+            bibliotheque[row["cote_rangement"]] = new_livre
+        else:         
+            frais = 2* date_diff.days
+            if frais > 100:
+                bibliotheque[row["cote_rangement"]] = livre
+                new_livre = {
+                "titre": livre["titre"],
+                "auteur": livre["auteur"],
+                "date_publication": livre["date_publication"],
+                "emprunts" : "emprunté",
+                "date_emprunt": row["date_emprunt"],
+                "frais_retard": "100$"
+                }
+            else:
+                bibliotheque[row["cote_rangement"]] = livre
+                new_livre = {
+                "titre": livre["titre"],
+                "auteur": livre["auteur"],
+                "date_publication": livre["date_publication"],
+                "emprunts" : "emprunté",
+                "date_emprunt": row["date_emprunt"],
+                "frais_retard": str(frais)+"$"
+                }
+            bibliotheque[row["cote_rangement"]] = new_livre
     else:       
         pass
 
